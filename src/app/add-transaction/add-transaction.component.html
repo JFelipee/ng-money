@@ -1,14 +1,35 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectionModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms'; // Add this line
+
+@NgModule({
+  declarations: [
+    AddTransactionComponent
+  ],
+  imports: [
+    CommonModule,
+    AddTransactionRoutingModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectionModule,
+    ReactiveFormsModule
+  ]
+})
+export class AddTransactionModule { }
 <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
   <mat-form-field appearance="fill">
     <mat-label>Descrição</mat-label>
-    <input matInput formControlName="description">
-    <mat-error *ngIf="transactionForm.get('description').invalid">Descrição é obrigatória</mat-error>
+    <input matInput formControlName="description" required>
+    <mat-error *ngIf="transactionForm.get('description').invalid && transactionForm.get('description').touched">Descrição é obrigatória</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Valor</mat-label>
-    <input matInput type="number" formControlName="amount">
-    <mat-error *ngIf="transactionForm.get('amount').invalid">Valor é obrigatório</mat-error>
+    <input matInput type="number" formControlName="amount" required>
+    <mat-error *ngIf="transactionForm.get('amount').invalid && transactionForm.get('amount').touched">Valor é obrigatório</mat-error>
   </mat-form-field>
 
   <mat-radio-group formControlName="type">
@@ -16,6 +37,6 @@
     <mat-radio-button value="S">Saída</mat-radio-button>
   </mat-radio-group>
 
-  <button mat-raised-button color="primary" [disabled]="transactionForm.invalid">Cadastrar</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="transactionForm.invalid">Cadastrar</button>
 </form>
 

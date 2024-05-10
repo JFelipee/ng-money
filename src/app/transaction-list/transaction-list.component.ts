@@ -1,29 +1,25 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../transaction.service';
 
 @Component({
-  selector: 'app-add-transaction',
-  templateUrl: './add-transaction.component.html',
-  styleUrls: ['./add-transaction.component.scss']
+  selector: 'app-transaction-list',
+  templateUrl: './transaction-list.component.html',
+  styleUrls: ['./transaction-list.component.scss']
 })
-export class AddTransactionComponent {
-  transactionForm: FormGroup;
+export class TransactionListComponent implements OnInit {
+  transactions!: any[];
 
-  constructor(private fb: FormBuilder, private transactionService: TransactionService) {
-    this.transactionForm = this.fb.group({
-      description: ['', Validators.required],
-      amount: [0, Validators.required],
-      type: ['E', Validators.required] // default to 'E' (Entrada)
+  constructor(private transactionService: TransactionService) { }
+
+  ngOnInit(): void {
+    this.transactionService.getTransactions().subscribe(transactions => {
+      this.transactions = transactions.slice(0, 10);
     });
   }
 
-  onSubmit(): void {
-    if (this.transactionForm.valid) {
-      this.transactionService.addTransaction(this.transactionForm.value).subscribe(() => {
-
-        this.transactionForm.reset();
-      });
-    }
+  loadMoreTransactions(): void {
+    this.transactionService.getTransactions().subscribe(transactions => {
+      this.transactions = transactions;
+    });
   }
 }
