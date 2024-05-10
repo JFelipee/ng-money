@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-
+import { MatRadioModule } from '@angular/material/radio';
+import { AppComponent } from '../app.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+  ],
   imports: [
-    CommonModule
-  ]
+
+    MatRadioModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AddTransactionModule { }
+export class AppModule { }

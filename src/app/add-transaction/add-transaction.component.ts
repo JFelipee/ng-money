@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionService } from '../transaction.service';
 
+
 @Component({
   selector: 'app-add-transaction',
   templateUrl: './add-transaction.component.html',
@@ -21,9 +22,12 @@ export class AddTransactionComponent {
   onSubmit(): void {
     if (this.transactionForm.valid) {
       this.transactionService.addTransaction(this.transactionForm.value).subscribe(() => {
-
+        // Handle success
         this.transactionForm.reset();
       });
     }
   }
 }
+
+
+

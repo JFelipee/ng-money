@@ -7,7 +7,7 @@ import { TransactionService } from '../transaction.service';
   styleUrls: ['./transaction-list.component.scss']
 })
 export class TransactionListComponent implements OnInit {
-  transactions!: any[];
+  transactions: any[] = [];
 
   constructor(private transactionService: TransactionService) { }
 
