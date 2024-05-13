@@ -30,6 +30,6 @@ import { AddTransactionComponent } from './add-transaction/add-transaction.compo
   ],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA] // Adiciona o CUSTOM_ELEMENTS_SCHEMA aqui
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

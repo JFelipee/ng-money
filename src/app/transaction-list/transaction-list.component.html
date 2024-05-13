@@ -1,2 +1,5 @@
-<button mat-button (click)="loadMoreTransactions()">Mostrar mais</button>
+<div *ngFor="let transaction of transactions">
+  <p>{{ transaction.description }} - {{ transaction.amount | currency }} ({{ transaction.type === 'E' ? 'Entrada' : 'Saída' }})</p>
+</div>
+
 
