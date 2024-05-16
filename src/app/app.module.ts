@@ -11,12 +11,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { AddTransactionComponent } from './add-transaction/add-transaction.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TransactionListComponent,
-    AddTransactionComponent
+    AddTransactionComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,8 @@ import { AddTransactionComponent } from './add-transaction/add-transaction.compo
     MatInputModule,
     MatButtonModule,
     MatRadioModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
