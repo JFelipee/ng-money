@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { TransactionService } from '../transaction.service';
+import { CdkTableDataSourceInput } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-transaction-list',
@@ -9,29 +9,17 @@ import { TransactionService } from '../transaction.service';
   styleUrls: ['./transaction-list.component.scss']
 })
 export class TransactionListComponent implements OnInit, OnDestroy {
-  transactions: any[] = [];
-  private unsubscribe$ = new Subject<void>();
-
-  constructor(private transactionService: TransactionService) {}
+  private transactionSubscription: Subscription = new Subscription();
+  displayedColumns!: Iterable<string>;
+  transactions!: CdkTableDataSourceInput<any>;
 
   ngOnInit(): void {
-    this.transactionService.getTransactions()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(transactions => {
-        this.transactions = transactions.slice(0, 10);
-      });
-  }
 
-  loadMoreTransactions(): void {
-    this.transactionService.getTransactions()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(transactions => {
-        this.transactions = transactions;
-      });
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    if (this.transactionSubscription) {
+      this.transactionSubscription.unsubscribe();
+    }
   }
 }

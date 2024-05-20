@@ -1,5 +1,27 @@
-<div *ngFor="let transaction of transactions">
-  <p>{{ transaction.description }} - {{ transaction.amount | currency }} ({{ transaction.type === 'E' ? 'Entrada' : 'Saída' }})</p>
+<div class="transaction-table-container">
+  <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Descrição </th>
+      <td mat-cell *matCellDef="let transaction"> {{ transaction.description }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef> Valor </th>
+      <td mat-cell *matCellDef="let transaction"> {{ transaction.amount | currency:'BRL':'symbol':'1.2-2' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let transaction"> {{ transaction.type === 'E' ? 'Entrada' : 'Saída' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Data </th>
+      <td mat-cell *matCellDef="let transaction"> {{ transaction.date | date:'dd/MM/yyyy' }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </div>
-
-

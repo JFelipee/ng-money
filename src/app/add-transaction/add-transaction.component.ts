@@ -1,7 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { TransactionService } from '../transaction.service';
 
 @Component({
@@ -9,31 +7,23 @@ import { TransactionService } from '../transaction.service';
   templateUrl: './add-transaction.component.html',
   styleUrls: ['./add-transaction.component.scss']
 })
-export class AddTransactionComponent implements OnDestroy {
+export class AddTransactionComponent implements OnInit {
   transactionForm: FormGroup;
-  private unsubscribe$ = new Subject<void>();
 
   constructor(private fb: FormBuilder, private transactionService: TransactionService) {
     this.transactionForm = this.fb.group({
       description: ['', Validators.required],
-      amount: [0, Validators.required],
-      type: ['E', Validators.required] // default to 'E' (Entrada)
+      amount: ['', [Validators.required, Validators.min(0.01)]],
+      type: ['E', Validators.required]
     });
+  }
+
+  ngOnInit(): void {
   }
 
   onSubmit(): void {
     if (this.transactionForm.valid) {
-      this.transactionService.addTransaction(this.transactionForm.value)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(() => {
-          // Handle success
-          this.transactionForm.reset();
-        });
+      this.transactionService.addTransaction(this.transactionForm.value);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 }
