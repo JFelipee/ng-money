@@ -1,25 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { TransactionService } from '../transaction.service';
-import { CdkTableDataSourceInput } from '@angular/cdk/table';
+import { Component, OnInit } from '@angular/core';
+import { TransactionService, Transaction } from '../transaction.service';
 
 @Component({
   selector: 'app-transaction-list',
   templateUrl: './transaction-list.component.html',
   styleUrls: ['./transaction-list.component.scss']
 })
-export class TransactionListComponent implements OnInit, OnDestroy {
-  private transactionSubscription: Subscription = new Subscription();
-  displayedColumns!: Iterable<string>;
-  transactions!: CdkTableDataSourceInput<any>;
+export class TransactionListComponent implements OnInit {
+
+  transactions: Transaction[] = [];
+  displayedColumns: string[] = ['description', 'amount', 'type', 'date'];
+
+  constructor(private transactionService: TransactionService) {}
 
   ngOnInit(): void {
-
-  }
-
-  ngOnDestroy(): void {
-    if (this.transactionSubscription) {
-      this.transactionSubscription.unsubscribe();
-    }
+    this.transactionService.getTransactions().subscribe(transactions => {
+      this.transactions = transactions;
+    });
   }
 }

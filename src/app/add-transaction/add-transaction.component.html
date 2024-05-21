@@ -1,16 +1,16 @@
-<div class="container">
-  <h2>Adicionar Nova Transação</h2>
+<div class="add-transaction-container">
+  <h2>Adicionar Transação</h2>
   <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Descrição</mat-label>
-      <input matInput formControlName="description" placeholder="Descrição da transação">
-      <!-- Add the necessary imports for 'mat-error' and 'FormsModule' -->
+      <input matInput formControlName="description">
+      <mat-error *ngIf="transactionForm?.get('description')?.invalid">Campo obrigatório</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Valor</mat-label>
-      <input matInput type="number" formControlName="amount" placeholder="Valor da transação">
-      <mat-error *ngIf="transactionForm?.get('amount')?.invalid">Valor é obrigatório</mat-error>
+      <input matInput formControlName="amount" type="number">
+      <mat-error *ngIf="transactionForm?.get('amount')?.invalid">Valor inválido</mat-error>
     </mat-form-field>
 
     <mat-radio-group formControlName="type">
@@ -18,6 +18,14 @@
       <mat-radio-button value="S">Saída</mat-radio-button>
     </mat-radio-group>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="transactionForm.invalid">Adicionar</button>
+    <mat-form-field appearance="fill">
+      <mat-label>Data</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="transactionForm?.get('date')?.invalid">Data inválida</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Adicionar</button>
   </form>
 </div>
