@@ -17,17 +17,17 @@ export class TransactionService {
   }
 
   private transactions: Transaction[] = [
-    { description: 'Salary', amount: 5000, type: 'E', date: new Date() },
-    { description: 'Rent', amount: -1500, type: 'S', date: new Date() },
-    { description: 'Groceries', amount: -300, type: 'S', date: new Date() },
-    { description: 'Car Maintenance', amount: -200, type: 'S', date: new Date() },
-    { description: 'Freelance Work', amount: 2000, type: 'E', date: new Date() },
-    { description: 'Dining Out', amount: -100, type: 'S', date: new Date() },
-    { description: 'Utilities', amount: -150, type: 'S', date: new Date() },
-    { description: 'Entertainment', amount: -80, type: 'S', date: new Date() },
-    { description: 'Clothing', amount: -250, type: 'S', date: new Date() },
-    { description: 'Savings', amount: 1000, type: 'E', date: new Date() },
-    { description: 'Gift', amount: 500, type: 'E', date: new Date() },
+    { description: 'Salario', amount: 5000, type: 'E', date: new Date() },
+    { description: 'Aluguel', amount: -1500, type: 'S', date: new Date() },
+    { description: 'Renda Fixa', amount: 350, type: 'E', date: new Date() },
+    { description: 'Manutençao Do Carro', amount: -200, type: 'S', date: new Date() },
+    { description: 'Trabalho Freelance', amount: 2000, type: 'E', date: new Date() },
+    { description: 'Jantar ', amount: -100, type: 'S', date: new Date() },
+    { description: 'Bitcoin', amount: 1100, type: 'E', date: new Date() },
+    { description: 'Cinema', amount: -80, type: 'S', date: new Date() },
+    { description: 'Renda Variavel', amount: 450, type: 'E', date: new Date() },
+    { description: 'Viagem', amount: -2000, type: 'S', date: new Date() },
+    { description: 'Presente', amount: 500, type: 'E', date: new Date() },
   ];
 
   getTransactions(): Observable<Transaction[]> {
