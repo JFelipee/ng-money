@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+
+// Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -12,13 +17,15 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
+
+// Components
 import { AppComponent } from './app.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { AddTransactionComponent } from './add-transaction/add-transaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DatePipe } from '@angular/common';
+
+// Routing
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +37,10 @@ import { DatePipe } from '@angular/common';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    // Angular Material Modules
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
@@ -40,9 +51,7 @@ import { DatePipe } from '@angular/common';
     MatRadioModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    ReactiveFormsModule,
-    AppRoutingModule
+    MatNativeDateModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
