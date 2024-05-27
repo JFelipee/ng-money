@@ -1,36 +1,49 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-
-export interface Transaction {
-  description: string;
-  amount: number;
-  type: string;
-  date: Date;
-}
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Transaction } from './transaction.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  addTransaction(value: any) {
-    throw new Error('Method not implemented.');
-  }
+  private apiUrl = 'http://localhost:3000/transactions';
 
-  private transactions: Transaction[] = [
-    { description: 'Salario', amount: 5000, type: 'E', date: new Date() },
-    { description: 'Aluguel', amount: -1500, type: 'S', date: new Date() },
-    { description: 'Renda Fixa', amount: 350, type: 'E', date: new Date() },
-    { description: 'Manutençao Do Carro', amount: -200, type: 'S', date: new Date() },
-    { description: 'Trabalho Freelance', amount: 2000, type: 'E', date: new Date() },
-    { description: 'Jantar ', amount: -100, type: 'S', date: new Date() },
-    { description: 'Bitcoin', amount: 1100, type: 'E', date: new Date() },
-    { description: 'Cinema', amount: -80, type: 'S', date: new Date() },
-    { description: 'Renda Variavel', amount: 450, type: 'E', date: new Date() },
-    { description: 'Viagem', amount: -2000, type: 'S', date: new Date() },
-    { description: 'Presente', amount: 500, type: 'E', date: new Date() },
-  ];
+  constructor(private http: HttpClient) {}
 
   getTransactions(): Observable<Transaction[]> {
-    return of(this.transactions);
+    return this.http.get<Transaction[]>(this.apiUrl).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  addTransaction(transaction: Transaction): Observable<Transaction> {
+    return this.http.post<Transaction>(this.apiUrl, transaction).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getTotalEntrada(): Observable<number> {
+    return this.getTransactions().pipe(
+      map(transactions =>
+        transactions.filter(transaction => transaction.type === 'E')
+                    .reduce((sum, transaction) => sum + transaction.amount, 0)
+      )
+    );
+  }
+
+  getTotalSaida(): Observable<number> {
+    return this.getTransactions().pipe(
+      map(transactions =>
+        transactions.filter(transaction => transaction.type === 'S')
+                    .reduce((sum, transaction) => sum + transaction.amount, 0)
+      )
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('Server Error:', error);
+    return throwError('There was a problem with the server. Please try again later.');
   }
 }

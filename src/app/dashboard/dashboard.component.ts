@@ -8,30 +8,26 @@ import { TransactionService } from '../transaction.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  totalIncome = 0;
-  totalExpenses = 0;
-  balance = 0;
-  private transactionSubscription: Subscription = new Subscription();
+  totalEntrada: number = 0;
+  totalSaida: number = 0;
+  private entradaSubscription: Subscription = new Subscription();
+  private saidaSubscription: Subscription | undefined = undefined;
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(private transactionService: TransactionService) {}
 
   ngOnInit(): void {
-    this.transactionSubscription = this.transactionService.getTransactions().subscribe(transactions => {
-      this.totalIncome = transactions
-        .filter(transaction => transaction.type === 'E')
-        .reduce((acc, transaction) => acc + transaction.amount, 0);
-
-      this.totalExpenses = transactions
-        .filter(transaction => transaction.type === 'S')
-        .reduce((acc, transaction) => acc + transaction.amount, 0);
-
-      this.balance = this.totalIncome - this.totalExpenses;
+    this.entradaSubscription = this.transactionService.getTotalEntrada().subscribe(totalEntrada => {
+      this.totalEntrada = totalEntrada;
+    });
+    this.saidaSubscription = this.transactionService.getTotalSaida().subscribe(totalSaida => {
+      this.totalSaida = totalSaida;
     });
   }
 
   ngOnDestroy(): void {
-    if (this.transactionSubscription) {
-      this.transactionSubscription.unsubscribe();
+    this.entradaSubscription.unsubscribe();
+    if (this.saidaSubscription) {
+      this.saidaSubscription.unsubscribe();
     }
   }
 }
